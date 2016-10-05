@@ -1,0 +1,43 @@
+public class Solution {
+    public int lengthOfLongestSubstring(String s) {
+        int len = s.length();
+        boolean[][] matrix = new boolean[len][len];
+        
+        for(int i = 0; i < len; i++){
+            for(int j = 0; j < len; j++){
+                matrix[i][j] = false;
+            }
+        }
+        
+        int maxLen = 0;
+        for(int i = 0; i < len; i++){
+            matrix[i][i] = true;
+            maxLen = 1;
+        }
+        
+        for(int nonRepLen = 2; nonRepLen < len + 1; nonRepLen++){
+            for(int i = 0; i < len - nonRepLen + 1; i++){
+                int cur = i + nonRepLen - 1;
+                if(matrix[i][cur - 1] && !stringContainsChar(s.substring(i, cur), s.charAt(cur))){
+                    matrix[i][cur] = true;
+                    if(nonRepLen > maxLen){
+                        maxLen = nonRepLen;
+                    }
+                }
+            }
+        }
+        
+        return maxLen;
+        
+    }
+    
+    private boolean stringContainsChar(String s, char ch){
+        boolean found = false;
+        for(int i = 0; i < s.length() && found == false; i++){
+            if(s.charAt(i) == ch){
+                found = true;
+            }
+        }
+        return found;
+    }
+}
