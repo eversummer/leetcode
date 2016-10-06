@@ -1,0 +1,45 @@
+public class Solution {
+    public List<List<Integer>> threeSum(int[] nums) {
+        List<List<Integer>> result = new ArrayList<>();
+        HashMap<Integer, ArrayList<int[]>> hashMap = new HashMap<>();
+        for(int i = 0; i < nums.length; i++){
+            for(int j = i + 1; j < nums.length; j++){
+                int twoSum = nums[i] + nums[j];
+                int[] point = new int[]{i, j};
+                if(hashMap.containsKey(twoSum)){
+                    hashMap.get(twoSum).add(point);
+                }
+                else{
+                    ArrayList<int[]> arrListPoint = new ArrayList<>();
+                    arrListPoint.add(point);
+                    hashMap.put(twoSum, arrListPoint);
+                }
+            }
+        }
+        Set<String> set = new HashSet<>();
+        for(int i = 0; i < nums.length; i++){
+            if(hashMap.containsKey(0 - nums[i])){
+                ArrayList<int[]> otherTwoNums = hashMap.get(0 - nums[i]);
+                for(int[] eachPoint : otherTwoNums){
+                    if(i == eachPoint[0] || i == eachPoint[1]){
+                        continue;
+                    }
+                    ArrayList<Integer> answer = new ArrayList<>();
+                    answer.add(nums[eachPoint[0]]);
+                    answer.add(nums[eachPoint[1]]);
+                    answer.add(nums[i]);
+                    Collections.sort(answer);
+                    String setStr = answer.get(0) + "," + answer.get(1) + "," + answer.get(2);
+                    if(!set.contains(setStr)){
+                        set.add(setStr);
+                        result.add(answer);
+                    }
+                    
+                    
+                }
+                
+            }
+        }
+        return result;
+    }
+}
